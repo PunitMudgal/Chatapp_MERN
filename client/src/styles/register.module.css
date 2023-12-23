@@ -1,0 +1,17 @@
+.full_register {
+  background-image: linear-gradient(
+    288deg,
+    rgba(0, 85, 255, 1) 1.5%,
+    rgba(4, 56, 115, 1) 91.6%
+  );
+  @apply min-h-screen;
+}
+
+.registerBox {
+  @apply flex flex-col items-center justify-center ml-[33%] mr-[33%] bg-gray-200 p-5 bg-opacity-100 rounded-xl shadow-lg;
+  @apply md:m-0;
+}
+
+/* .register_form {
+  @apply ;
+} */
