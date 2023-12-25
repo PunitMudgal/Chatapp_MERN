@@ -7,6 +7,7 @@ import { WebSocketServer } from "ws";
 
 import connectDb from "./config/connectDB.js";
 import authRoutes from "./router/auth.js";
+import userRoutes from "./router/user.js";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ const upload = multer({ storage });
 
 /** ROUTES */
 app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
 
 const port = process.env.PORT || 8081;
 const server = app.listen(port, () => {
@@ -40,6 +42,7 @@ const server = app.listen(port, () => {
 const wss = new WebSocketServer({ server });
 wss.on("connection", (connection) => {
   console.log("connected");
+  connection.send("hello");
   // function notifyAboutOnlinePeople() {
   //   [..]
 });

@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        heading: ["Exo 2", "sans-serif"],
-        text: ["Signika Negative", "sans-serif"],
+        text1: ["Inter", "sans-serif"],
+        text2: ["PT Sans", "sans-serif"],
       },
       backgroundImage: {
         "chat-img": "url('src/assets/chatbg2.jpg')",
