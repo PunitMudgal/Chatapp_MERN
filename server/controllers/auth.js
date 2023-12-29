@@ -6,7 +6,7 @@ import User from "../models/User.js";
 /** /auth/register */
 export const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, picturePath } = req.body;
 
     const checkEmail = await User.findOne({ email });
     if (checkEmail) {
@@ -22,7 +22,7 @@ export const register = async (req, res) => {
       email,
       password: passwordHash,
       aboutUser: "",
-      picturePath: "", // todo <---
+      picturePath,
     });
     newUser
       .save()

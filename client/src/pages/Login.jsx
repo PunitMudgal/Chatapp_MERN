@@ -24,9 +24,9 @@ function Register() {
       let loginPromise = loginUser(values);
 
       toast.promise(loginPromise, {
-        loading: "Creating Account...",
-        success: "Registered!",
-        error: "Couldn't Register!",
+        loading: "Logging in...",
+        success: "Login Success!",
+        error: "Couldn't Login!",
       });
 
       loginPromise.then(function (res) {
@@ -85,7 +85,10 @@ function Register() {
                 type="password"
                 required
               />
-              <button className="p-2 px-4 max-w-fit rounded-2xl self-center bg-amber-400 hover:bg-amber-500 text-white">
+              <button
+                type="submit"
+                className="p-2 px-4 max-w-fit rounded-2xl self-center bg-amber-400 hover:bg-amber-500 text-white"
+              >
                 Login
               </button>
             </Box>

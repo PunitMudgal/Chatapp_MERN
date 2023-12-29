@@ -4,8 +4,8 @@ import Auth from "../middleware/authorization.js";
 
 const router = express.Router();
 
-router.get("/:id", getUser);
+router.get("/:id", Auth, getUser);
 router.get("/search/:name", searchUser);
-router.patch("/updateUser", updateUser);
+router.patch("/updateUser", Auth, updateUser);
 
 export default router;

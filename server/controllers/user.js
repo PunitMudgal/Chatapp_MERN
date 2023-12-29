@@ -44,3 +44,14 @@ export const updateUser = async (req, res) => {
     return res.status(500).send({ msg: error.message });
   }
 };
+
+/** PROFILE PHOTO */
+// export const profilePhoto = async(req, res) => {
+//   try {
+//     const {userId, picturePath} = req.body;
+//     const user = await User.findById(userId);
+//     const profilePicture =
+//   } catch (error) {
+
+//   }
+// }

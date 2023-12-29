@@ -40,3 +40,26 @@ export async function deleteUserAccount(userData) {
     return Promise.reject({ error });
   }
 }
+
+// SEARCH USER
+export async function searchUser(userId) {
+  try {
+    const searchResult = await axios.get(`/user/search/${userId}`);
+    return searchResult;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+// EDIT USER DATA
+export async function editUserData(userData) {
+  const token = localStorage.getItem("token");
+  try {
+    const updatedResult = await axios.patch(`/user/updateUser`, userData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return Promise.resolve({ updatedResult });
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}

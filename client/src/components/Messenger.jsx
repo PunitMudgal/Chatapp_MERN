@@ -3,8 +3,8 @@ import Message from "./Message";
 
 function Messenger() {
   return (
-    <div className="flex h-full flex-col px-24">
-      <div className="flex-grow mt-2">
+    <div className="flex h-full flex-col px-24 overflow-auto">
+      <div className="flex-grow mt-2 bg-scroll">
         <Message />
         <Message own={true} />
         <Message />

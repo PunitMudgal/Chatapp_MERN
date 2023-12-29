@@ -1,7 +1,6 @@
 import cors from "cors";
 import express from "express";
 import dotenv from "dotenv";
-import multer from "multer";
 import bodyParser from "body-parser";
 import { WebSocketServer } from "ws";
 
@@ -18,17 +17,6 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-//IMAGE FILE STORAGE
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./serverImages");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
-const upload = multer({ storage });
-
 /** ROUTES */
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
@@ -43,8 +31,6 @@ const wss = new WebSocketServer({ server });
 wss.on("connection", (connection) => {
   console.log("connected");
   connection.send("hello");
-  // function notifyAboutOnlinePeople() {
-  //   [..]
 });
 
 /** DATABASE SETUP */

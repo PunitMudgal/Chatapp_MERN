@@ -8,10 +8,11 @@
 }
 
 .registerBox {
-  @apply flex flex-col items-center justify-center ml-[33%] mr-[33%] bg-gray-200 p-5 bg-opacity-100 rounded-xl shadow-lg;
+  @apply flex flex-col items-center justify-center ml-[30%] mr-[30%] bg-gray-100 p-5 bg-opacity-100 rounded-xl shadow-lg;
   @apply md:m-0;
 }
 
-/* .register_form {
-  @apply ;
-} */
+.profile_img {
+  @apply border-4 object-cover border-gray-400 w-[150px] h-[150px] rounded-full shadow-lg cursor-pointer;
+  @apply md:w-[120] md:h-[120] hover:border-sky-500;
+}

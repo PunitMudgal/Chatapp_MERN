@@ -31,7 +31,7 @@ export default async function useFetch(query) {
       }
       // for friend data fetching
       else {
-        const { data, status } = await axios.get(`/user/${userId}`, {
+        const { data, status } = await axios.get(`/user/${query}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (status === 201) {

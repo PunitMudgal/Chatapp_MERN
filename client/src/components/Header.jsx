@@ -1,11 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import {
+  AccountCircleRounded,
+  PeopleAltRounded,
+  SettingsRounded,
+  LogoutRounded,
+} from "@mui/icons-material";
 
-function Header() {
+function Header({
+  submitSearchUsers,
+  searchText,
+  setSearchText,
+  setIsMenuItem,
+}) {
+  /** MENU */
+  const [menu, setMenu] = useState(false);
+
+  useEffect(() => {
+    if (searchText) {
+      const timer = setTimeout(() => {
+        submitSearchUsers();
+      }, 300);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [searchText]);
+
   return (
     <div className="flex items-center gap-3 p-4 w-full">
-      {/* menu  */}
-      <div className="rounded-full hover:bg-purple-600 p-2 cursor-pointer">
+      {/* menu ham berger */}
+      <div className=" cursor-pointer p-2 hover:bg-purple-600 rounded-full">
         <svg
+          onClick={() => setMenu(!menu)}
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -20,6 +47,42 @@ function Header() {
           />
         </svg>
       </div>
+
+      {/* MENU ITEMS  */}
+      {menu && (
+        <div
+          onMouseLeave={() => setMenu(false)}
+          className="absolute top-20 left-5 flex flex-col gap-3 rounded-lg hover: bg-blue-950 shadow-md"
+        >
+          <p
+            className="cursor-pointer hover:bg-purple-700 px-6 py-3 rounded-lg"
+            onClick={() => setIsMenuItem("profile")}
+          >
+            <AccountCircleRounded /> Profile
+          </p>
+
+          <p
+            className="cursor-pointer hover:bg-purple-700 px-6 py-3 rounded-lg"
+            onClick={() => setIsMenuItem("contacts")}
+          >
+            <PeopleAltRounded /> Contacts
+          </p>
+
+          <p
+            className="cursor-pointer hover:bg-purple-700 px-6 py-3 rounded-lg"
+            onClick={() => setIsMenuItem("settings")}
+          >
+            <SettingsRounded /> Settings
+          </p>
+
+          <p
+            onClick={() => localStorage.removeItem("token")}
+            className="cursor-pointer hover:bg-purple-700 px-6 py-3 rounded-lg"
+          >
+            <LogoutRounded /> Logout
+          </p>
+        </div>
+      )}
 
       {/* search  */}
       <div className="flex flex-grow items-center gap-2 p-1 px-2 rounded-3xl border-2 border-purple-600 bg-blue-800 bg-opacity-10 ">
@@ -39,6 +102,8 @@ function Header() {
         </svg>
 
         <input
+          onChange={(e) => setSearchText(e.target.value)}
+          value={searchText}
           type="text"
           className="bg-transparent p-1 w-full"
           placeholder="Search"
