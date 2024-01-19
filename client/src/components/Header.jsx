@@ -5,20 +5,18 @@ import {
   SettingsRounded,
   LogoutRounded,
 } from "@mui/icons-material";
+import { useContactContext } from "../context/ContactsContext";
 
-function Header({
-  submitSearchUsers,
-  searchText,
-  setSearchText,
-  setIsMenuItem,
-}) {
+function Header({ submitSearchUsers, setMenuItem }) {
   /** MENU */
   const [menu, setMenu] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  // const { SetMenuItem } = useContactContext();
 
   useEffect(() => {
     if (searchText) {
       const timer = setTimeout(() => {
-        submitSearchUsers();
+        submitSearchUsers(searchText);
       }, 300);
 
       return () => {
@@ -51,27 +49,21 @@ function Header({
       {/* MENU ITEMS  */}
       {menu && (
         <div
-          onMouseLeave={() => setMenu(false)}
+          // onMouseLeave={() => setMenu(false)}
           className="absolute top-20 left-5 flex flex-col gap-3 rounded-lg hover: bg-blue-950 shadow-md"
         >
           <p
             className="cursor-pointer hover:bg-purple-700 px-6 py-3 rounded-lg"
-            onClick={() => setIsMenuItem("profile")}
+            onClick={() => setMenuItem("profile")}
           >
             <AccountCircleRounded /> Profile
           </p>
 
-          <p
-            className="cursor-pointer hover:bg-purple-700 px-6 py-3 rounded-lg"
-            onClick={() => setIsMenuItem("contacts")}
-          >
+          <p className="cursor-pointer hover:bg-purple-700 px-6 py-3 rounded-lg">
             <PeopleAltRounded /> Contacts
           </p>
 
-          <p
-            className="cursor-pointer hover:bg-purple-700 px-6 py-3 rounded-lg"
-            onClick={() => setIsMenuItem("settings")}
-          >
+          <p className="cursor-pointer hover:bg-purple-700 px-6 py-3 rounded-lg">
             <SettingsRounded /> Settings
           </p>
 

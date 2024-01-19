@@ -1,29 +1,19 @@
 import React from "react";
+import avatar from "../assets/profile.png";
 
-function Avatar({ size, profilePhoto, firstLetterOfName }) {
+function Avatar({ size, profilePhoto }) {
   return (
-    <div>
-      {profilePhoto ? (
-        <img
-          src={profilePhoto}
-          className={`rounded-full h-${size || 14} w-${
-            size || 14
-          } object-cover`}
-          alt="img"
-        />
-      ) : (
-        <div
-          className={` flex justify-center items-center  rounded-full bg-green-300 h-${
-            size || 16
-          } w-${size || "[4rem]"} md:p-3`}
-        >
-          <p className="uppercase font-semibold text-gray-600">
-            {firstLetterOfName || "a"}
-          </p>
-        </div>
-      )}
+    <div className={`max-h-14 max-w-14 `}>
+      <img
+        src={profilePhoto || avatar}
+        className={`rounded-full object-cover ${size && `size-[${size}px]`}`}
+        alt="img"
+      />
     </div>
   );
 }
 
 export default Avatar;
+// h-${size || "14"} w-${
+//   size || "14"
+// }

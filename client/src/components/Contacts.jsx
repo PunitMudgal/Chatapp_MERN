@@ -1,38 +1,39 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Contact from "./Contact";
 import Header from "./Header";
 import { searchUser } from "../helper/helper";
 import Profile from "./Profile";
+import { UseUserContext } from "../context/UserContext";
+import { useContactContext } from "../context/ContactsContext";
+import Loading, { LoadingContact } from "./Loading";
 
 function Contacts() {
-  /** SEARCHING */
+  /** SEARCH */
   const [searchResults, setSearchResults] = useState([]);
   const [searchMenu, setSearchMenu] = useState(false);
-  const [searchText, setSearchText] = useState("");
+  const [menuItem, setMenuItem] = useState("");
 
-  /** PROFILE PAGE MENU */
-  const [isMenuItem, setIsMenuItem] = useState("");
+  const { user, isUserDataLoading } = UseUserContext();
+  const { conversation, isContactLoading } = useContactContext();
 
-  const submitSearchUsers = () => {
-    if (searchText) {
-      const searchPromise = searchUser(searchText.toLowerCase());
+  const submitSearchUsers = (text) => {
+    if (text) {
+      const searchPromise = searchUser(text.toLowerCase());
       searchPromise.then((user) => {
         setSearchResults(user.data);
         setSearchMenu(true);
       });
     }
   };
-  if (isMenuItem === "profile")
-    return <Profile setIsMenuItem={setIsMenuItem} />;
+  if (isUserDataLoading) return <Loading />;
+  if (menuItem === "profile") return <Profile setMenuItem={setMenuItem} />;
 
-  if (isMenuItem === "")
+  if (menuItem === "")
     return (
       <div className="h-screen bg-scroll overflow-auto">
         <Header
           submitSearchUsers={submitSearchUsers}
-          searchText={searchText}
-          setSearchText={setSearchText}
-          setIsMenuItem={setIsMenuItem}
+          setMenuItem={setMenuItem}
         />
         {/* search results  */}
         {searchMenu && (
@@ -62,7 +63,7 @@ function Contacts() {
                   key={user._id}
                   picturePath={user.picturePath}
                   name={user.name}
-                  size={10}
+                  size={12}
                 />
               ))
             )}
@@ -70,11 +71,18 @@ function Contacts() {
           </div>
         )}
 
-        <Contact />
-        <Contact />
-        <Contact />
-        <Contact />
-        <Contact />
+        {!isContactLoading ? (
+          conversation.map((contact) => (
+            <Contact
+              key={contact._id}
+              {...contact}
+              currentUserId={user?._id}
+              size={14}
+            />
+          ))
+        ) : (
+          <LoadingContact />
+        )}
       </div>
     );
 }

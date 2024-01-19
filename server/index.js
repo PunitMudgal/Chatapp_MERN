@@ -7,6 +7,8 @@ import { WebSocketServer } from "ws";
 import connectDb from "./config/connectDB.js";
 import authRoutes from "./router/auth.js";
 import userRoutes from "./router/user.js";
+import conversationRotues from "./router/conversation.js";
+import messageRoute from "./router/message.js";
 
 dotenv.config();
 
@@ -20,6 +22,8 @@ app.use(cors());
 /** ROUTES */
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/conversation", conversationRotues);
+app.use("/message", messageRoute);
 
 const port = process.env.PORT || 8081;
 const server = app.listen(port, () => {

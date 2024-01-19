@@ -11,6 +11,7 @@ export async function getDataFromToken() {
   return decode;
 }
 
+/** USER AND AUTHENTICATION */
 // REGISTER USER
 export async function registerUser(userData) {
   try {
@@ -62,4 +63,30 @@ export async function editUserData(userData) {
   } catch (error) {
     return Promise.reject(error);
   }
+}
+
+/** CONVERSATIN AND MESSAGES */
+
+// get a user's all conversation (contacts)
+export async function getConversation(userId) {
+  const token = localStorage.getItem("token");
+  try {
+    const { data } = await axios.get(`/conversation/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return Promise.resolve(data);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+// new conversation
+export async function newConversation({ senderId, receiverId }) {
+  const token = localStorage.getItem("token");
+  try {
+    const newConvo = await axios.post(`/conversation`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return Promise.resolve();
+  } catch (error) {}
 }

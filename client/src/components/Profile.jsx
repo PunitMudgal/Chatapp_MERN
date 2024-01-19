@@ -11,11 +11,12 @@ import avatar from "../assets/profile.png";
 import { editUserData } from "../helper/helper";
 import convertToBase64 from "../helper/base64Convert";
 import { UseUserContext } from "../context/UserContext";
+import { LoadingProfile } from "./Loading";
 
-function Profile({ setIsMenuItem }) {
+function Profile({ setMenuItem }) {
   const [isEdit, setIsEdit] = useState(false);
   const [file, setFile] = useState();
-  const { user, fetchUserData } = UseUserContext();
+  const { user, isUserDataLoading, fetchUserData } = UseUserContext();
 
   const { values, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: {
@@ -36,8 +37,10 @@ function Profile({ setIsMenuItem }) {
         success: "Update Success",
         error: "Couldn't Update!",
       });
-      registerPromise.then(() => fetchUserData());
-      registerPromise.then(() => setIsEdit(false));
+      registerPromise.then(() => {
+        fetchUserData();
+        setIsEdit(false);
+      });
     },
   });
 
@@ -46,13 +49,14 @@ function Profile({ setIsMenuItem }) {
     setFile(base64);
   };
 
+  if (isUserDataLoading) return <LoadingProfile />;
   return (
     <div className="h-screen overflow-auto px-4">
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div className="flex gap-2 items-cener justify-between p-2 text-gray-200 mb-3">
         {/* back button  */}
         <svg
-          onClick={() => setIsMenuItem("")}
+          onClick={() => setMenuItem("")}
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -113,7 +117,6 @@ function Profile({ setIsMenuItem }) {
               )}
             </label>{" "}
             <input
-              // value={values.picturePath}
               onChange={onUpload}
               onBlur={handleBlur}
               type="file"
@@ -161,7 +164,7 @@ function Profile({ setIsMenuItem }) {
           <div>
             <span className="text-xs ml-10 text-gray-500">Joined at</span>
             <p className="p-2">
-              <EventRounded /> {user?.createdAt}
+              <EventRounded /> {user?.createdAt.slice(0, 10)}
             </p>
           </div>
 
