@@ -6,13 +6,13 @@ import {
   LogoutRounded,
 } from "@mui/icons-material";
 import { useContactContext } from "../context/ContactsContext";
+import { useNavigate } from "react-router-dom";
 
 function Header({ submitSearchUsers, setMenuItem }) {
   /** MENU */
   const [menu, setMenu] = useState(false);
   const [searchText, setSearchText] = useState("");
-  // const { SetMenuItem } = useContactContext();
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (searchText) {
       const timer = setTimeout(() => {
@@ -68,7 +68,10 @@ function Header({ submitSearchUsers, setMenuItem }) {
           </p>
 
           <p
-            onClick={() => localStorage.removeItem("token")}
+            onClick={() => {
+              localStorage.removeItem("token");
+              navigate("/");
+            }}
             className="cursor-pointer hover:bg-purple-700 px-6 py-3 rounded-lg"
           >
             <LogoutRounded /> Logout

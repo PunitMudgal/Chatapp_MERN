@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Signin from "./pages/Login";
 import { UserProvider } from "./context/UserContext";
 import { ContactProvider } from "./context/ContactsContext";
+import ProtectedRoute from "./helper/ProtectedRoute";
 
 function App() {
   return (
@@ -15,7 +16,14 @@ function App() {
             <Routes>
               <Route path="/" element={<Signin />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/home" element={<Home />} />
+              <Route
+                path="/home"
+                element={
+                  <ProtectedRoute>
+                    <Home />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </BrowserRouter>
         </ContactProvider>

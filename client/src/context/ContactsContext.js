@@ -11,25 +11,26 @@ const ContactProvider = ({ children }) => {
 
   const { user } = UseUserContext();
 
+  async function getConversation(userId) {
+    setIsContactLoading(true);
+    const token = localStorage.getItem("token");
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8080/conversation/${userId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setConversation(data);
+      setIsContactLoading(false);
+    } catch (error) {
+      console.log(error);
+      return Promise.reject(error);
+    }
+  }
+
   useEffect(() => {
     console.log("useEffect conv called");
-    async function getConversation(userId) {
-      setIsContactLoading(true);
-      const token = localStorage.getItem("token");
-      try {
-        const { data } = await axios.get(
-          `http://localhost:8080/conversation/${userId}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setConversation(data);
-        setIsContactLoading(false);
-      } catch (error) {
-        console.log(error);
-        return Promise.reject(error);
-      }
-    }
     getConversation(user?._id);
   }, [user]);
 

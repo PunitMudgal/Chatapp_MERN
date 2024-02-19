@@ -34,7 +34,7 @@ const server = app.listen(port, () => {
 const wss = new WebSocketServer({ server });
 wss.on("connection", (connection) => {
   console.log("connected");
-  connection.send("hello");
+  // connection.send("hello");
 });
 
 /** DATABASE SETUP */

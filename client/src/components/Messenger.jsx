@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Message from "./Message";
+import { UseUserContext } from "../context/UserContext";
 
 function Messenger() {
+  const [currentChat, setCurrentChat] = useState(null);
+  const { user } = UseUserContext();
+
+  useEffect(() => {});
+
   return (
     <div className="flex h-full flex-col px-24 overflow-auto">
       <div className="flex-grow mt-2 bg-scroll">

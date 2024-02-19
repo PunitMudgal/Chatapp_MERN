@@ -4,7 +4,7 @@ import { UseUserContext } from "../context/UserContext.js";
 
 function Contact({ picturePath, name, size, currentUserId, members }) {
   const { fetchFriendData } = UseUserContext();
-  const [friendData, setFriendData] = useState([]);
+  const [friendData, setFriendData] = useState(null);
 
   useEffect(() => {
     if (currentUserId) {
@@ -14,7 +14,7 @@ function Contact({ picturePath, name, size, currentUserId, members }) {
         setFriendData(data);
       });
     }
-  }, [currentUserId]);
+  }, [currentUserId, members]);
 
   return (
     <div className="flex p-2 items-center gap-3 rounded-md mb-2 hover:bg-sky-400 hover:bg-opacity-10">
