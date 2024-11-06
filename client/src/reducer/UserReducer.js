@@ -17,6 +17,11 @@ const UserReducer = (state, action) => {
         isUserDataLoading: false,
         isUserDataError: action.payload,
       };
+    case "FRIEND_DATA_SUCCESS":
+      return {
+        ...state,
+        friendData: action.payload,
+      };
     default:
       return state;
   }

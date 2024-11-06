@@ -9,7 +9,7 @@ const ContactProvider = ({ children }) => {
   const [isContactLoading, setIsContactLoading] = useState(false);
   const [isMenuItem, setIsMenuItem] = useState("");
 
-  const { user } = UseUserContext();
+  const { user } = UseUserContext() || [];
 
   async function getConversation(userId) {
     setIsContactLoading(true);
@@ -21,17 +21,21 @@ const ContactProvider = ({ children }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      console.log("conv data - - -- --  -- - -- ", data);
       setConversation(data);
-      setIsContactLoading(false);
     } catch (error) {
       console.log(error);
       return Promise.reject(error);
+    } finally {
+      setIsContactLoading(false);
     }
   }
 
+  console.log("user", user);
+
   useEffect(() => {
     console.log("useEffect conv called");
-    getConversation(user?._id);
+    user && getConversation(user._id);
   }, [user]);
 
   /** Menu Item  */

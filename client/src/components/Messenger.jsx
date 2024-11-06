@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Message from "./Message";
 import { UseUserContext } from "../context/UserContext";
+import send from "../assets/send.png";
 
 function Messenger() {
   const [currentChat, setCurrentChat] = useState(null);
@@ -9,8 +10,8 @@ function Messenger() {
   useEffect(() => {});
 
   return (
-    <div className="flex h-full flex-col px-24 overflow-auto">
-      <div className="flex-grow mt-2 bg-scroll">
+    <div className="flex h-full flex-col mx-[3vw] overflow-auto md:mx-1">
+      <div className="flex-grow mt-2 bg-scroll ">
         <Message />
         <Message own={true} />
         <Message />
@@ -25,23 +26,10 @@ function Messenger() {
           className="bg-gray-800 text-gray-200 rounded-lg w-full border-2 border-slate-700 p-2 px-4 font-text1 text-lg shadow-lg "
         />
         <button
-          className="p-2 px-3 bg-purple-500 rounded-md hover:bg-purple-800 border-2 border-slate-700 shadow-lg"
+          className="p-2 px-3 rounded-md border-2 border-slate-700 shadow-lg"
           type="submit"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
-            />
-          </svg>
+          <img src={send} alt="" />
         </button>
       </div>
     </div>

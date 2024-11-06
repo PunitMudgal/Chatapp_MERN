@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  AccountCircleRounded,
-  PeopleAltRounded,
-  SettingsRounded,
-  LogoutRounded,
-} from "@mui/icons-material";
+
+import account from "../assets/account.png";
+import peoples from "../assets/peoples.png";
+import settings from "../assets/settings.png";
+import logout from "../assets/logout.png";
+
 import { useContactContext } from "../context/ContactsContext";
 import { useNavigate } from "react-router-dom";
 
@@ -25,12 +25,26 @@ function Header({ submitSearchUsers, setMenuItem }) {
     }
   }, [searchText]);
 
+  const menuList = [
+    { name: "Profile", icon: account, action: null },
+    { name: "Contacts", icon: peoples, action: null },
+    { name: "Settings", icon: settings, action: null },
+    { name: "Logout", icon: logout, action: null },
+  ];
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
     <div className="flex items-center gap-3 p-4 w-full">
       {/* menu ham berger */}
-      <div className=" cursor-pointer p-2 hover:bg-purple-600 rounded-full">
+      <div
+        className=" cursor-pointer p-2 hover:bg-purple-600 rounded-full "
+        onClick={() => setMenu(!menu)}
+      >
         <svg
-          onClick={() => setMenu(!menu)}
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -52,30 +66,19 @@ function Header({ submitSearchUsers, setMenuItem }) {
           // onMouseLeave={() => setMenu(false)}
           className="absolute top-20 left-5 flex flex-col gap-3 rounded-lg hover: bg-blue-950 shadow-md"
         >
-          <p
-            className="cursor-pointer hover:bg-purple-700 px-6 py-3 rounded-lg"
-            onClick={() => setMenuItem("profile")}
-          >
-            <AccountCircleRounded /> Profile
-          </p>
-
-          <p className="cursor-pointer hover:bg-purple-700 px-6 py-3 rounded-lg">
-            <PeopleAltRounded /> Contacts
-          </p>
-
-          <p className="cursor-pointer hover:bg-purple-700 px-6 py-3 rounded-lg">
-            <SettingsRounded /> Settings
-          </p>
-
-          <p
-            onClick={() => {
-              localStorage.removeItem("token");
-              navigate("/");
-            }}
-            className="cursor-pointer hover:bg-purple-700 px-6 py-3 rounded-lg"
-          >
-            <LogoutRounded /> Logout
-          </p>
+          {menuList.map((item) => (
+            <p
+              onClick={item.action}
+              className="cursor-pointer hover:bg-purple-700 px-6 py-3 rounded-lg "
+            >
+              <img
+                className="invert h-5 w-auto inline mr-1"
+                src={item.icon}
+                alt="icon"
+              />{" "}
+              {item.name}
+            </p>
+          ))}
         </div>
       )}
 

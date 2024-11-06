@@ -1,8 +1,3 @@
-import {
-  InfoRounded,
-  AlternateEmailRounded,
-  EventRounded,
-} from "@mui/icons-material";
 import { useState } from "react";
 import { useFormik } from "formik";
 import { Toaster, toast } from "react-hot-toast";
@@ -12,11 +7,18 @@ import { editUserData } from "../helper/helper";
 import convertToBase64 from "../helper/base64Convert";
 import { UseUserContext } from "../context/UserContext";
 import { LoadingProfile } from "./Loading";
+import info from "../assets/info.png";
+import mail from "../assets/mail.png";
+import event from "../assets/event.png";
 
 function Profile({ setMenuItem }) {
   const [isEdit, setIsEdit] = useState(false);
   const [file, setFile] = useState();
-  const { user, isUserDataLoading, fetchUserData } = UseUserContext();
+  const {
+    user,
+    isUserDataLoading,
+    //  fetchUserData
+  } = UseUserContext();
 
   const { values, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: {
@@ -38,7 +40,7 @@ function Profile({ setMenuItem }) {
         error: "Couldn't Update!",
       });
       registerPromise.then(() => {
-        fetchUserData();
+        // fetchUserData();
         setIsEdit(false);
       });
     },
@@ -156,7 +158,7 @@ function Profile({ setMenuItem }) {
               Email
             </span>
             <p className="p-2">
-              <AlternateEmailRounded /> {user?.email}{" "}
+              <img src={mail} alt="" /> {user?.email}{" "}
             </p>
           </div>
 
@@ -164,7 +166,7 @@ function Profile({ setMenuItem }) {
           <div>
             <span className="text-xs ml-10 text-gray-500">Joined at</span>
             <p className="p-2">
-              <EventRounded /> {user?.createdAt.slice(0, 10)}
+              <img src={event} alt="" /> {user?.createdAt.slice(0, 10)}
             </p>
           </div>
 
@@ -181,7 +183,7 @@ function Profile({ setMenuItem }) {
               />
             ) : (
               <p className="p-2">
-                <InfoRounded /> {user?.aboutUser || "N/A"}
+                <img src={info} alt="" /> {user?.aboutUser || "N/A"}
               </p>
             )}
           </div>

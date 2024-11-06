@@ -3,13 +3,13 @@ import Avatar from "./Avatar.jsx";
 import { UseUserContext } from "../context/UserContext.js";
 
 function Contact({ picturePath, name, size, currentUserId, members }) {
-  const { fetchFriendData } = UseUserContext();
+  const { FetchHook: fetchUserdata } = UseUserContext();
   const [friendData, setFriendData] = useState(null);
 
   useEffect(() => {
     if (currentUserId) {
       const friendId = members.filter((m) => m !== currentUserId);
-      const friendData = fetchFriendData(friendId);
+      const friendData = fetchUserdata(friendId);
       friendData.then((data) => {
         setFriendData(data);
       });
@@ -17,7 +17,7 @@ function Contact({ picturePath, name, size, currentUserId, members }) {
   }, [currentUserId, members]);
 
   return (
-    <div className="flex p-2 items-center gap-3 rounded-md mb-2 hover:bg-sky-400 hover:bg-opacity-10">
+    <div className="flex p-2  items-center gap-3 rounded-md mb-2 hover:bg-sky-400 hover:bg-opacity-10">
       <Avatar
         profilePhoto={picturePath || friendData?.picturePath}
         // firstLetterOfName={friendData?.name[0]}

@@ -63,7 +63,7 @@ function Contacts() {
                   key={user._id}
                   picturePath={user.picturePath}
                   name={user.name}
-                  size={12}
+                  size="12"
                 />
               ))
             )}
@@ -78,7 +78,7 @@ function Contacts() {
               key={contact._id}
               {...contact}
               currentUserId={user?._id}
-              size={14}
+              size="16"
             />
           ))
         ) : (

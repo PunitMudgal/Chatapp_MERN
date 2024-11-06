@@ -36,11 +36,10 @@ function Register() {
         error: "Couldn't Register!",
       });
 
-      registerPromise.then((res) => {
-        let { token } = res.data;
-        localStorage.setItem("token", token);
-        navigate("/home");
-      });
+      const response = await registerPromise;
+      const { token } = response.data;
+      localStorage.setItem("token", token);
+      navigate("/home");
     },
   });
 

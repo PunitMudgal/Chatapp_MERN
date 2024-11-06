@@ -94,7 +94,7 @@ function Register() {
             </Box>
             <p className="text-sm self-start">
               Don't have any account?{" "}
-              <Link to="/" className="underline text-red-500">
+              <Link to="/register" className="underline text-red-500">
                 Register
               </Link>
             </p>

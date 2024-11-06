@@ -14,8 +14,8 @@ export const register = async (req, res) => {
       throw new Error("email already in use");
     }
 
-    //   const salt = await bcrypt.genSalt();
-    const passwordHash = await bcrypt.hash(password, 10);
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(password, salt);
 
     const newUser = new User({
       name,
@@ -26,8 +26,12 @@ export const register = async (req, res) => {
     });
     newUser
       .save()
-      .then(() => {
-        const token = jwt.sign({ email }, process.env.JWT_SECRET_TOKEN);
+      .then(async () => {
+        const user = await User.findOne({ email }).select("_id");
+        const token = jwt.sign(
+          { userId: user._id, email },
+          process.env.JWT_SECRET_TOKEN
+        );
         res.status(201).send({ msg: "user registration successful", token });
       })
       .catch((error) =>
@@ -89,6 +93,10 @@ export const deleteAccount = async (req, res) => {
 /**GET ALL USERS */
 /** /auth/getAll */
 export const getAllUsers = async (req, res) => {
-  const allUsers = await User.find();
-  res.json(allUsers);
+  try {
+    const allUsers = await User.find().lean();
+    res.status(200).json(allUsers);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };

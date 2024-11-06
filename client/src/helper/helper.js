@@ -7,7 +7,7 @@ axios.defaults.baseURL = "http://localhost:8080";
 export async function getDataFromToken() {
   const token = localStorage.getItem("token");
   if (!token) return Promise.reject("token not found!");
-  let decode = await jwtDecode(token);
+  let decode = jwtDecode(token);
   return decode;
 }
 
