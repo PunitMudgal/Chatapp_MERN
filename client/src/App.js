@@ -1,33 +1,56 @@
 import React from "react";
-import Register from "./pages/Register";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Home from "./pages/Home";
-import Signin from "./pages/Login";
-import { UserProvider } from "./context/UserContext";
-import { ContactProvider } from "./context/ContactsContext";
+import {
+  Routes,
+  Route,
+  BrowserRouter,
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import { Suspense, lazy } from "react";
+
 import ProtectedRoute from "./helper/ProtectedRoute";
 
+const Home = lazy(() => import("./pages/Home"));
+const Signin = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
+const Contacts = lazy(() => import("./components/Contacts"));
+const Profile = lazy(() => import("./components/Profile"));
+
 function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Signin />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
+    },
+    {
+      path: "/home",
+      element: (
+        <ProtectedRoute>
+          <Home />
+        </ProtectedRoute>
+      ),
+      children: [
+        {
+          path: "",
+          element: <Contacts />,
+        },
+        {
+          path: "profile",
+          element: <Profile />,
+        },
+      ],
+    },
+  ]);
+
   return (
     <>
-      <UserProvider>
-        <ContactProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Signin />} />
-              <Route path="/register" element={<Register />} />
-              <Route
-                path="/home"
-                element={
-                  <ProtectedRoute>
-                    <Home />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </BrowserRouter>
-        </ContactProvider>
-      </UserProvider>
+      <Suspense>
+        <RouterProvider router={router} />
+      </Suspense>
     </>
   );
 }

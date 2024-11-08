@@ -6,7 +6,7 @@ function Avatar({ size, profilePhoto }) {
     <img
       src={profilePhoto || avatar}
       className={`rounded-full  object-cover w-auto ${
-        size ? `h-${size}` : "h-14"
+        size ? `h-${size}` : "h-12"
       }`}
       alt="img"
     />

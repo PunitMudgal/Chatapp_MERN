@@ -1,20 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Contact from "./Contact";
 import Header from "./Header";
 import { searchUser } from "../helper/helper";
 import Profile from "./Profile";
-import { UseUserContext } from "../context/UserContext";
-import { useContactContext } from "../context/ContactsContext";
 import Loading, { LoadingContact } from "./Loading";
+import search from "../assets/search.svg";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 function Contacts() {
   /** SEARCH */
   const [searchResults, setSearchResults] = useState([]);
   const [searchMenu, setSearchMenu] = useState(false);
-  const [menuItem, setMenuItem] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [isContactLoading, setIsContactLoading] = useState(true);
+  const [conversation, setConversation] = useState([]);
 
-  const { user, isUserDataLoading } = UseUserContext();
-  const { conversation, isContactLoading } = useContactContext();
+  const { user, isLoading } = useSelector((state) => state.auth);
 
   const submitSearchUsers = (text) => {
     if (text) {
@@ -25,17 +27,62 @@ function Contacts() {
       });
     }
   };
-  if (isUserDataLoading) return <Loading />;
-  if (menuItem === "profile") return <Profile setMenuItem={setMenuItem} />;
 
-  if (menuItem === "")
-    return (
-      <div className="h-screen bg-scroll overflow-auto">
-        <Header
-          submitSearchUsers={submitSearchUsers}
-          setMenuItem={setMenuItem}
-        />
-        {/* search results  */}
+  useEffect(() => {
+    if (searchText) {
+      const timer = setTimeout(() => {
+        submitSearchUsers(searchText);
+      }, 300);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [searchText]);
+
+  async function getConversations(userId) {
+    setIsContactLoading(true);
+    const token = localStorage.getItem("token");
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8080/conversation/${userId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("conv data ", data);
+      setConversation(data);
+    } catch (error) {
+      console.log(error);
+      return Promise.reject(error);
+    } finally {
+      setIsContactLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    user && getConversations(user._id);
+  }, [user]);
+
+  if (isLoading) return <Loading />;
+  return (
+    <div className="h-screen bg-scroll overflow-auto">
+      <Header />
+
+      <div className="p-4 py-5 mt-4 mx-3 space-y-3 h-[39rem] bg-gray-800 bg-opacity-70 rounded-3xl shadow shadow-gray-800 overflow-auto">
+        {/* search bar  */}
+        <div className="flex justify-between rounded-2xl bg-[#000632] w-full p-3">
+          <input
+            onChange={(e) => setSearchText(e.target.value)}
+            value={searchText}
+            className="flex-grow bg-transparent "
+            type="text"
+            placeholder="Search"
+          />
+          <img src={search} className="h-5 invert" alt="search-icon" />
+        </div>
+
+        {/* search result menu */}
         {searchMenu && (
           <div>
             <div className="flex justify-between items-center text-gray-400 ">
@@ -60,6 +107,7 @@ function Contacts() {
             ) : (
               searchResults?.map((user) => (
                 <Contact
+                  currentUserId={user?._id}
                   key={user._id}
                   picturePath={user.picturePath}
                   name={user.name}
@@ -71,21 +119,24 @@ function Contacts() {
           </div>
         )}
 
-        {!isContactLoading ? (
+        {/* contact list */}
+        {isContactLoading ? (
+          <LoadingContact />
+        ) : (
           //todo
-          conversation.map((contact) => (
+          conversation?.map((contact) => (
             <Contact
+              conversation={conversation}
               key={contact._id}
-              {...contact}
+              // {...contact}
               currentUserId={user?._id}
               size="16"
             />
           ))
-        ) : (
-          <LoadingContact />
         )}
       </div>
-    );
+    </div>
+  );
 }
 
 export default Contacts;

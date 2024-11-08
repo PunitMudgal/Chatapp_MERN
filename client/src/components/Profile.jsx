@@ -5,26 +5,24 @@ import { Toaster, toast } from "react-hot-toast";
 import avatar from "../assets/profile.png";
 import { editUserData } from "../helper/helper";
 import convertToBase64 from "../helper/base64Convert";
-import { UseUserContext } from "../context/UserContext";
 import { LoadingProfile } from "./Loading";
 import info from "../assets/info.png";
 import mail from "../assets/mail.png";
 import event from "../assets/event.png";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-function Profile({ setMenuItem }) {
+function Profile() {
   const [isEdit, setIsEdit] = useState(false);
   const [file, setFile] = useState();
-  const {
-    user,
-    isUserDataLoading,
-    //  fetchUserData
-  } = UseUserContext();
+  const { user, isLoading } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const { values, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: {
-      name: user?.name,
-      picturePath: user?.picturePath,
-      aboutUser: user?.aboutUser,
+      name: user?.name || "",
+      picturePath: user?.picturePath || "",
+      aboutUser: user?.aboutUser || "",
     },
 
     // validate: registerValidation,
@@ -32,15 +30,14 @@ function Profile({ setMenuItem }) {
     validateOnChange: false,
     onSubmit: async (values, action) => {
       values = await Object.assign(values, { picturePath: file || "" });
-      let registerPromise = editUserData(values);
+      const updatePromise = editUserData(values);
 
-      toast.promise(registerPromise, {
+      await toast.promise(updatePromise, {
         loading: "Updating...",
         success: "Update Success",
         error: "Couldn't Update!",
       });
-      registerPromise.then(() => {
-        // fetchUserData();
+      updatePromise.then(() => {
         setIsEdit(false);
       });
     },
@@ -51,14 +48,14 @@ function Profile({ setMenuItem }) {
     setFile(base64);
   };
 
-  if (isUserDataLoading) return <LoadingProfile />;
+  if (isLoading) return <LoadingProfile />;
   return (
     <div className="h-screen overflow-auto px-4">
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div className="flex gap-2 items-cener justify-between p-2 text-gray-200 mb-3">
         {/* back button  */}
         <svg
-          onClick={() => setMenuItem("")}
+          onClick={() => navigate(-1)}
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"

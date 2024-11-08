@@ -4,14 +4,12 @@ import User from "../models/User.js";
 export const getUser = async (req, res) => {
   try {
     const { id } = req.params;
-
-    if (!id) return res.status(501).send({ error: "invalid user id" });
-    const findUser = await User.findById(id);
-    if (findUser) {
-      return res.status(201).json(findUser);
-    }
+    const user = await User.findById(id)
+      .lean()
+      .select("-password -createdAt -updatedAt");
+    res.status(200).json(user);
   } catch (error) {
-    return res.status(404).json({ msg: error.message });
+    res.status(404).json({ message: error.message });
   }
 };
 

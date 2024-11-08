@@ -140,7 +140,7 @@ function Register() {
             </Box>
             <p className="text-sm self-start">
               already have an account?{" "}
-              <Link to="/signin" className="underline text-red-500">
+              <Link to="/" className="underline text-red-500">
                 Sign in
               </Link>
             </p>

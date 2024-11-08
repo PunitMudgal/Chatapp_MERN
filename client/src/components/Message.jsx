@@ -9,7 +9,7 @@ function Message({ own }) {
       } max-w-lg `}
     >
       <div className="flex items-start gap-2">
-        {!own && <Avatar size={"10"} />}
+        {!own && <Avatar size="10" />}
         <p
           className={`${
             own ? "bg-zinc-800" : "bg-indigo-800"

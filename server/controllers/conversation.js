@@ -20,7 +20,7 @@ export const getConvoSingleUser = async (req, res) => {
   try {
     const conversation = await Conversation.find({
       members: { $in: [req.params.userId] },
-    });
+    }).lean();
     res.status(200).json(conversation);
   } catch (error) {
     res.status(500).json(err);
@@ -33,7 +33,7 @@ export const getConvoTwoUsers = async (req, res) => {
   try {
     const conversation = await Conversation.findOne({
       members: { $all: [req.params.firstUserId, req.params.secondUserId] },
-    });
+    }).lean();
     res.status(200).json(conversation);
   } catch (error) {
     res.status(500).json(err);

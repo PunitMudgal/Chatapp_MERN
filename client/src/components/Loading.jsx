@@ -2,24 +2,29 @@ import React from "react";
 
 export default function Loading() {
   return (
-    <div className="flex flex-col gap-5 p-2">
-      <div className="w-full flex gap-2 h-10">
-        <div className="p-3 rounded-md px-4 bg-gray-800 " />
-        <div className="flex-grow p-3 bg-gray-800 rounded-2xl" />
+    <>
+      <div className="flex items-center gap-3 px-1 py-3 bg-gray-800 rounded-xl bg-opacity-60">
+        <div className="h-8 w-8 rounded-full bg-gray-700 bg-opacity-70" />
+
+        <div className="flex flex-col gap-1">
+          <div className="h-2 w-32 rounded-sm bg-gray-700 bg-opacity-70" />
+          <div className="h-3 w-32 rounded-sm bg-gray-700 bg-opacity-70" />
+        </div>
+        <div className="h-7 w-5 rounded-2xl bg-gray-700 ml-auto bg-opacity-70" />
       </div>
       <LoadingContact />
-    </div>
+    </>
   );
 }
 
 export function LoadingContact() {
   return (
-    <div className="flex flex-col gap-2">
-      <div className="h-16 w-full bg-gray-800 rounded-md" />
-      <div className="h-16 w-full bg-gray-800 rounded-md" />
-      <div className="h-16 w-full bg-gray-800 rounded-md" />
-      <div className="h-16 w-full bg-gray-800 rounded-md" />
-      <div className="h-16 w-full bg-gray-800 rounded-md" />
+    <div className="flex flex-col gap-2  mt-10">
+      <div className="h-16 w-full bg-gray-800 rounded-md bg-opacity-65" />
+      <div className="h-16 w-full bg-gray-800 rounded-md bg-opacity-65" />
+      <div className="h-16 w-full bg-gray-800 rounded-md bg-opacity-65" />
+      <div className="h-16 w-full bg-gray-800 rounded-md bg-opacity-65" />
+      <div className="h-16 w-full bg-gray-800 rounded-md bg-opacity-65" />
     </div>
   );
 }
@@ -32,3 +37,18 @@ export function LoadingProfile() {
     </div>
   );
 }
+
+//! not using this
+export const LoadingHeader = () => {
+  return (
+    <div className="flex gap-2 items-center bg-gray-700 p-2 rounded-xl bg-opacity-55">
+      <div className="h-8 w-8 rounded-full bg-gray-700 " />
+
+      <div className="flex flex-col gap-1">
+        <div className="h-2 w-32 rounded-sm bg-gray-700" />
+        <div className="h-3 w-32 rounded-sm bg-gray-700" />
+      </div>
+      <div className="h-7 w-5 rounded-2xl bg-gray-700 ml-auto" />
+    </div>
+  );
+};

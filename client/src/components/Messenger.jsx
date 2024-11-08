@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Message from "./Message";
-import { UseUserContext } from "../context/UserContext";
 import send from "../assets/send.png";
+import { useSelector } from "react-redux";
 
 function Messenger() {
   const [currentChat, setCurrentChat] = useState(null);
-  const { user } = UseUserContext();
-
-  useEffect(() => {});
+  const user = useSelector((state) => state.auth?.user);
 
   return (
     <div className="flex h-full flex-col mx-[3vw] overflow-auto md:mx-1">
