@@ -7,8 +7,11 @@ import Loading, { LoadingContact } from "./Loading";
 import search from "../assets/search.svg";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 
 function Contacts() {
+  const { currentChat, setCurrentChat } = useOutletContext(); // *sent by home as context because it can't be sent as prop in outlet
+
   /** SEARCH */
   const [searchResults, setSearchResults] = useState([]);
   const [searchMenu, setSearchMenu] = useState(false);
@@ -50,7 +53,6 @@ function Contacts() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("conv data ", data);
       setConversation(data);
     } catch (error) {
       console.log(error);
@@ -64,6 +66,7 @@ function Contacts() {
     user && getConversations(user._id);
   }, [user]);
 
+  console.log("conversation", conversation);
   if (isLoading) return <Loading />;
   return (
     <div className="h-screen bg-scroll overflow-auto">
@@ -111,7 +114,7 @@ function Contacts() {
                   key={user._id}
                   picturePath={user.picturePath}
                   name={user.name}
-                  size="12"
+                  size="48"
                 />
               ))
             )}
@@ -125,13 +128,14 @@ function Contacts() {
         ) : (
           //todo
           conversation?.map((contact) => (
-            <Contact
-              conversation={conversation}
-              key={contact._id}
-              // {...contact}
-              currentUserId={user?._id}
-              size="16"
-            />
+            <div onClick={() => setCurrentChat(contact)}>
+              <Contact
+                key={contact._id}
+                {...contact}
+                currentUserId={user?._id}
+                size="64"
+              />
+            </div>
           ))
         )}
       </div>

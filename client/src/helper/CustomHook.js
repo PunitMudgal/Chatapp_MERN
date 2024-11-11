@@ -1,7 +1,9 @@
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import axios from "axios";
-import { setFriend, setLoading, setUser } from "../store/userSlice";
+import { setLoading, setUser } from "../store/userSlice";
+import { setContacts, setIsContactLoading } from "../store/contactSlice";
+
 import { getDataFromToken } from "./helper";
 
 export default function useFetchUserData(query) {
@@ -23,9 +25,9 @@ export default function useFetchUserData(query) {
     const fetchData = async () => {
       if (!token) return; // Stop execution if no token is present
 
-      dispatch(setLoading(true));
+      query ? dispatch(setIsContactLoading(true)) : dispatch(setLoading(true));
       try {
-        const userId = query || (await getUserIdFromToken());
+        const userId = query ? query : await getUserIdFromToken();
         if (!userId) throw new Error("User ID not found");
 
         const endPoint = `/user/${userId}`;
@@ -34,13 +36,13 @@ export default function useFetchUserData(query) {
         });
 
         if (status === 200) {
-          // Dispatch the appropriate action based on the query presence
-          query ? dispatch(setFriend(data)) : dispatch(setUser(data));
+          query ? dispatch(setContacts(data)) : dispatch(setUser(data));
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
       } finally {
         dispatch(setLoading(false));
+        dispatch(setIsContactLoading(false));
       }
     };
 

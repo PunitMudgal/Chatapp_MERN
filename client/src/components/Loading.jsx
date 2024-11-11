@@ -3,15 +3,7 @@ import React from "react";
 export default function Loading() {
   return (
     <>
-      <div className="flex items-center gap-3 px-1 py-3 bg-gray-800 rounded-xl bg-opacity-60">
-        <div className="h-8 w-8 rounded-full bg-gray-700 bg-opacity-70" />
-
-        <div className="flex flex-col gap-1">
-          <div className="h-2 w-32 rounded-sm bg-gray-700 bg-opacity-70" />
-          <div className="h-3 w-32 rounded-sm bg-gray-700 bg-opacity-70" />
-        </div>
-        <div className="h-7 w-5 rounded-2xl bg-gray-700 ml-auto bg-opacity-70" />
-      </div>
+      <LoadingHeader />
       <LoadingContact />
     </>
   );
@@ -41,14 +33,14 @@ export function LoadingProfile() {
 //! not using this
 export const LoadingHeader = () => {
   return (
-    <div className="flex gap-2 items-center bg-gray-700 p-2 rounded-xl bg-opacity-55">
-      <div className="h-8 w-8 rounded-full bg-gray-700 " />
+    <div className="flex items-center gap-3 px-1 py-3 bg-gray-800 rounded-xl bg-opacity-60">
+      <div className="h-8 w-8 rounded-full bg-gray-700 bg-opacity-70" />
 
       <div className="flex flex-col gap-1">
-        <div className="h-2 w-32 rounded-sm bg-gray-700" />
-        <div className="h-3 w-32 rounded-sm bg-gray-700" />
+        <div className="h-2 w-32 rounded-sm bg-gray-700 bg-opacity-70" />
+        <div className="h-3 w-32 rounded-sm bg-gray-700 bg-opacity-70" />
       </div>
-      <div className="h-7 w-5 rounded-2xl bg-gray-700 ml-auto" />
+      <div className="h-7 w-5 rounded-2xl bg-gray-700 ml-auto bg-opacity-70" />
     </div>
   );
 };

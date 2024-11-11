@@ -7,6 +7,6 @@ export default async function Auth(req, res, next) {
     req.user = decodeToken;
     next();
   } catch (error) {
-    req.status(401).json({ error: "authentication failed" });
+    res.status(401).json({ error: "authentication failed" });
   }
 }

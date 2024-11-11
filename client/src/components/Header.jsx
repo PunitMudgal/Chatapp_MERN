@@ -34,7 +34,7 @@ function Header() {
       <div className="flex items-center gap-3 px-3 py-3">
         <Avatar
           className="cursor-pointer"
-          size="12"
+          size="48"
           profilePhoto={user?.picturePath}
           onClick={() => setMenu((prev) => !prev)}
         />
